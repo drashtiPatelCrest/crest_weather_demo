@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:crest_weather_demo/bloc/weather_bloc.dart';
 import 'package:crest_weather_demo/models/weather_model.dart';
 import 'package:crest_weather_demo/utils/date_time_util.dart';
-import 'package:crest_weather_demo/utils/internet_cubit.dart';
-import 'package:crest_weather_demo/widgets/medium_text.dart';
 import 'package:crest_weather_demo/constants/enum_constants.dart';
 import 'package:crest_weather_demo/widgets/next_five_weather.dart';
 import 'package:flutter/material.dart';
