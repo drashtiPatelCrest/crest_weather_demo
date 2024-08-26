@@ -12,9 +12,8 @@ part 'weather_event.dart';
 
 part 'weather_state.dart';
 
-class WeatherBloc extends Bloc<WeatherEvent, WeatherState> with HydratedMixin {
+class WeatherBloc extends HydratedBloc<WeatherEvent, WeatherState> {
   final ApiRepository _apiRepository = ApiRepository();
-  bool isFetchLocation = false;
 
   WeatherBloc()
       : super(const WeatherState(
@@ -33,12 +32,12 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> with HydratedMixin {
   Future<void> _onGetLocationInfoEvent(Emitter<WeatherState> emit) async {
     emit(state.copyWith(status: WeatherStateStatus.loadingLocation));
 
-    Position position = await _apiRepository.getCurrentLocation();
-    emit(state.copyWith(status: WeatherStateStatus.location, position: position));
-    /*if (isFetchLocation == false) {
-      isFetchLocation = true;
+    Position? position = await _apiRepository.getCurrentLocation();
+    if (position != null) {
       emit(state.copyWith(status: WeatherStateStatus.location, position: position));
-    }*/
+    } else {
+      emit(state.copyWith(status: WeatherStateStatus.locationFailed));
+    }
   }
 
   Future<void> _onWeatherApiCallEvent(
@@ -46,15 +45,15 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> with HydratedMixin {
     Emitter<WeatherState> emit,
   ) async {
     try {
-      emit(state.copyWith(status: ((event.lat.isNotEmpty) && (event.lon.isNotEmpty)) ? WeatherStateStatus.searching : WeatherStateStatus.loading));
-      if (event.lat.isNotEmpty && event.lon.isNotEmpty) {
-        WeatherModel? weatherModel = await _apiRepository.fetchWeatherInfo(lat: event.lat, long: event.lon);
+      emit(state.copyWith(status: WeatherStateStatus.loading));
+      if (event.position != null) {
+        WeatherModel? weatherModel = await _apiRepository.fetchWeatherInfo(position: event.position!);
         (weatherModel != null)
             ? emit(state.copyWith(
                 weatherModel: weatherModel,
                 status: WeatherStateStatus.loaded,
               ))
-            : emit(state.copyWith(status: WeatherStateStatus.noData, weatherModel: null));
+            : emit(state.copyWith(status: WeatherStateStatus.failed, weatherModel: null));
       } else {
         emit(state.copyWith(status: WeatherStateStatus.loading, weatherModel: null));
       }

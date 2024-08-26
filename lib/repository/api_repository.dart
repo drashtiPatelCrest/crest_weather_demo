@@ -5,11 +5,11 @@ import 'package:geolocator/geolocator.dart';
 class ApiRepository {
   final _provider = ApiProvider();
 
-  Future<WeatherModel> fetchWeatherInfo({required String lat, required String long}) {
-    return _provider.fetchCovidWeatherInfo(lat: lat, long: long);
+  Future<WeatherModel> fetchWeatherInfo({required Position position}) {
+    return _provider.fetchCovidWeatherInfo(position: position);
   }
 
-  Future<Position> getCurrentLocation() {
+  Future<Position?> getCurrentLocation() {
     return _provider.getCurrentLocation();
   }
 }

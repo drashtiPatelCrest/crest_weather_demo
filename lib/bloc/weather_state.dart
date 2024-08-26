@@ -3,11 +3,10 @@ part of 'weather_bloc.dart';
 enum WeatherStateStatus {
   location,
   loadingLocation,
+  locationFailed,
   loading,
-  searching,
   loaded,
-  noData,
-  offline,
+  failed,
   error,
 }
 
@@ -35,12 +34,13 @@ class WeatherState extends Equatable {
       );
 
   @override
-  List<Object?> get props => [status, weatherModel];
+  List<Object?> get props => [status, weatherModel, position];
 
   Map<String, dynamic> toMap() {
     return {
       'status': status.toString(),
       'weatherModel': weatherModel,
+      'position': position,
     };
   }
 

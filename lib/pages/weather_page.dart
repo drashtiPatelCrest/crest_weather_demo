@@ -5,6 +5,8 @@ import 'package:crest_weather_demo/models/weather_model.dart';
 import 'package:crest_weather_demo/utils/date_time_util.dart';
 import 'package:crest_weather_demo/utils/internet_cubit.dart';
 import 'package:crest_weather_demo/widgets/medium_text.dart';
+import 'package:crest_weather_demo/constants/enum_constants.dart';
+import 'package:crest_weather_demo/widgets/next_five_weather.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -22,24 +24,10 @@ class _WeatherPageState extends State<WeatherPage> {
   late LocationPermission permission;
   bool isGotLocation = false;
 
-  Future<Position> _getCurrentLocation() async {
-    servicePermission = await Geolocator.isLocationServiceEnabled();
-
-    if (!servicePermission) {
-      print("Service Disabled");
-    }
-
-    permission = await Geolocator.checkPermission();
-
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-    }
-    return await Geolocator.getCurrentPosition();
-  }
-
   @override
   void initState() {
     context.read<WeatherBloc>().add(const GetCurrentLocation());
+
     super.initState();
   }
 
@@ -58,18 +46,31 @@ class _WeatherPageState extends State<WeatherPage> {
           preferredSize: Size.fromHeight(0),
           child: SizedBox.shrink(),
         ),
-        body: BlocBuilder<WeatherBloc, WeatherState>(builder: (context, state) {
-          if (state.status == WeatherStateStatus.loadingLocation) {
-            return _loaderView();
-          } else if (state.status == WeatherStateStatus.location) {
-            context.read<WeatherBloc>().add(FetchWeatherDetails(lat: state.position!.latitude.toString(), lon: state.position!.longitude.toString()));
-            return _loaderView();
-          } else if (state.status == WeatherStateStatus.loaded) {
-            return _weatherInfoView(state.weatherModel);
-          } else {
-            return _loaderView();
-          }
-        }),
+        body: BlocBuilder<WeatherBloc, WeatherState>(
+            bloc: context.read<WeatherBloc>(),
+            builder: (context, state) {
+              if (state.status == WeatherStateStatus.loadingLocation) {
+                return _loaderView();
+              } else if (state.status == WeatherStateStatus.locationFailed) {
+                return Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Please turn on GPS \n allow location permission and try again!', textAlign: TextAlign.center),
+                    OutlinedButton(onPressed: () => context.read<WeatherBloc>().add(const GetCurrentLocation()), child: const Text('Try Again')),
+                  ],
+                ));
+              } else if (state.status == WeatherStateStatus.location) {
+                context.read<WeatherBloc>().add(FetchWeatherDetails(position: state.position));
+                return _loaderView();
+              } else if (state.status == WeatherStateStatus.loaded) {
+                return _weatherInfoView(state.weatherModel);
+              } else if (state.status == WeatherStateStatus.failed) {
+                return const Center(child: Text('No weather records found!'));
+              } else {
+                return _loaderView();
+              }
+            }),
       ),
     );
   }
@@ -81,11 +82,11 @@ class _WeatherPageState extends State<WeatherPage> {
         children: [
           Expanded(
             flex: 1,
-            child: _todayInfoWidget(weatherModel),
+            child: _todayWeatherInfoWidget(weatherModel),
           ),
           Expanded(
             flex: 1,
-            child: _nextFiveDayWidget(weatherModel),
+            child: NextFiveWeather(weatherModel: weatherModel),
           ),
         ],
       ),
@@ -96,14 +97,7 @@ class _WeatherPageState extends State<WeatherPage> {
     return const Center(child: CircularProgressIndicator());
   }
 
-  String _kelvinToCelsius(num? kelvin) {
-    if (kelvin == null) {
-      return '-';
-    }
-    return '${(kelvin - 273.15).toStringAsPrecision(2)}\u00B0';
-  }
-
-  _todayInfoWidget(
+  _todayWeatherInfoWidget(
     WeatherModel? weatherModel,
   ) {
     String todayString = DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -135,7 +129,7 @@ class _WeatherPageState extends State<WeatherPage> {
           ],
         ),
         Text(
-          DateTimeUtil.convertDateFormat(weatherModel?.list?.first.dtTxt),
+          'Last update, ${DateTimeUtil.convertDateFormat(weatherModel?.list?.first.dtTxt)}',
           style: const TextStyle(
             color: Colors.black,
             fontSize: 15,
@@ -144,7 +138,7 @@ class _WeatherPageState extends State<WeatherPage> {
         const SizedBox(height: 10),
         // Degree
         Text(
-          _kelvinToCelsius(todayLatest?.main?.temp ?? 0.00),
+          todayLatest!.main!.temp!.toCelsiusString(),
           style: const TextStyle(
             color: Colors.black,
             fontSize: 100,
@@ -152,92 +146,10 @@ class _WeatherPageState extends State<WeatherPage> {
         ),
         // Description
         Text(
-          '${todayLatest?.weather?.first.description}',
+          '${todayLatest.weather?.first.description}',
           style: const TextStyle(
             color: Colors.black,
             fontSize: 20,
-          ),
-        ),
-      ],
-    );
-  }
-
-  _nextFiveDayWidget(WeatherModel? weatherModel) {
-    String todayString = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    var otherDates = weatherModel?.list?.where((element) => element.dtTxt != null && element.dtTxt!.contains(todayString) == false);
-    List<WeatherList> nextFive = [];
-    otherDates?.forEach((weather) {
-      String dateString = weather.dtTxt!.split(' ')[0];
-      if (nextFive.any((element) => element.dtTxt!.contains(dateString)) == false) {
-        nextFive.add(otherDates.firstWhere((element) => element.dtTxt!.contains(dateString) == true));
-      }
-    });
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(color: Colors.black.withOpacity(0.5), borderRadius: const BorderRadius.all(Radius.circular(10))),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 3,
-                child: MediumText(text: 'Next 5 Days'),
-              ),
-              Expanded(
-                flex: 1,
-                child: MediumText(
-                  text: 'Min',
-                  textAlign: TextAlign.end,
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: MediumText(
-                  text: 'Max',
-                  textAlign: TextAlign.end,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 5),
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(color: Colors.black.withOpacity(0.5), borderRadius: const BorderRadius.all(Radius.circular(10))),
-          child: ListView.builder(
-            itemCount: nextFive.length,
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: MediumText(
-                        text: DateTimeUtil.convertShortDate(nextFive[index].dtTxt),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: MediumText(
-                        text: _kelvinToCelsius(nextFive[index].main?.tempMin),
-                        textAlign: TextAlign.end,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: MediumText(
-                        text: _kelvinToCelsius(nextFive[index].main?.tempMax),
-                        textAlign: TextAlign.end,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
           ),
         ),
       ],

@@ -8,10 +8,9 @@ abstract class WeatherEvent extends Equatable {
 }
 
 class FetchWeatherDetails extends WeatherEvent {
-  final String lat;
-  final String lon;
+  final Position? position;
 
-  const FetchWeatherDetails({required this.lat, required this.lon});
+  const FetchWeatherDetails({required this.position});
 }
 
 class GetCurrentLocation extends WeatherEvent {
