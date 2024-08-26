@@ -20,7 +20,7 @@ class ApiProvider {
     bool servicePermission = await Geolocator.isLocationServiceEnabled();
 
     if (!servicePermission) {
-      return null;
+      print("Service Disabled");
     }
 
     LocationPermission permission = await Geolocator.checkPermission();
@@ -28,6 +28,10 @@ class ApiProvider {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
     }
-    return await Geolocator.getCurrentPosition();
+    try {
+      return await Geolocator.getCurrentPosition();
+    } catch (e) {
+      return null;
+    }
   }
 }
