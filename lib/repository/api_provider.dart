@@ -1,4 +1,5 @@
 import 'package:crest_weather_demo/models/weather_model.dart';
+import 'package:crest_weather_demo/utils/api_key_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -8,7 +9,8 @@ class ApiProvider {
 
   Future<WeatherModel> fetchCovidWeatherInfo({required Position position}) async {
     try {
-      Response response = await _dio.get('$_url&lat=${position.latitude}&lon=${position.longitude}&appid=37ea9939152496e5de6ca532f93817fd');
+      _dio.interceptors.add(DioInterceptor());
+      Response response = await _dio.get('$_url&lat=${position.latitude}&lon=${position.longitude}');
       return WeatherModel.fromJson(response.data);
     } catch (error, stacktrace) {
       print("Exception occurred: $error stackTrace: $stacktrace");

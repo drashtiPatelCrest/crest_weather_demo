@@ -4,13 +4,11 @@ Flutter Weather mobile app that will show list of weather forecast of next 5 day
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Below libraries are used to develop this demo:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [Dio](https://pub.dev/packages/dio) to make REST location api call using key query param with interceptor.
+- In build json deserialization used to convert class fromJson and toJson.  
+- [Flutter Bloc](https://pub.dev/packages/flutter_bloc) for application state management.
+- [Hydrated Bloc](https://pub.dev/packages/hydrated_bloc)  to store last record so that user can view last records even when offline.
+- [Geolocator](https://pub.dev/packages/geolocator)  to get current location and fetch weather report for the location.
+- Also added Widget Test and Unit Test samples for demo.
