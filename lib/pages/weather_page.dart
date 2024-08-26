@@ -10,6 +10,7 @@ import 'package:crest_weather_demo/widgets/next_five_weather.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
 
 class WeatherPage extends StatefulWidget {
@@ -26,8 +27,7 @@ class _WeatherPageState extends State<WeatherPage> {
 
   @override
   void initState() {
-    context.read<WeatherBloc>().add(const GetCurrentLocation());
-
+    getCurrentLocation();
     super.initState();
   }
 
@@ -154,5 +154,12 @@ class _WeatherPageState extends State<WeatherPage> {
         ),
       ],
     );
+  }
+
+  void getCurrentLocation() async {
+    bool isConnected = await InternetConnectionChecker().hasConnection;
+    if (isConnected) {
+      context.read<WeatherBloc>().add(const GetCurrentLocation());
+    }
   }
 }

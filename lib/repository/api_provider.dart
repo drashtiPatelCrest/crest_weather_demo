@@ -14,7 +14,7 @@ class ApiProvider {
       return WeatherModel.fromJson(response.data);
     } catch (error, stacktrace) {
       print("Exception occurred: $error stackTrace: $stacktrace");
-      return WeatherModel.withError("Data not found / Connection issue");
+      throw Exception('Failed to load data');
     }
   }
 
