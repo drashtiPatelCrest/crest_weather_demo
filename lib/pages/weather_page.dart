@@ -54,12 +54,20 @@ class _WeatherPageState extends State<WeatherPage> {
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Please turn on GPS \n allow location permission and try again!', textAlign: TextAlign.center),
-                    OutlinedButton(onPressed: () => context.read<WeatherBloc>().add(const GetCurrentLocation()), child: const Text('Try Again')),
+                    const Text(
+                        'Please turn on GPS \n allow location permission and try again!',
+                        textAlign: TextAlign.center),
+                    OutlinedButton(
+                        onPressed: () => context
+                            .read<WeatherBloc>()
+                            .add(const GetCurrentLocation()),
+                        child: const Text('Try Again')),
                   ],
                 ));
               } else if (state.status == WeatherStateStatus.location) {
-                context.read<WeatherBloc>().add(FetchWeatherDetails(position: state.position));
+                context
+                    .read<WeatherBloc>()
+                    .add(FetchWeatherDetails(position: state.position));
                 return _loaderView();
               } else if (state.status == WeatherStateStatus.loaded) {
                 return _weatherInfoView(state.weatherModel);
@@ -99,7 +107,9 @@ class _WeatherPageState extends State<WeatherPage> {
     WeatherModel? weatherModel,
   ) {
     String todayString = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    var todayLatest = weatherModel?.list?.lastWhere((element) => element.dtTxt != null && element.dtTxt!.contains(todayString) == true);
+    var todayLatest = weatherModel?.list.lastWhere((element) =>
+        element.dt_txt != null &&
+        element.dt_txt!.contains(todayString) == true);
 
     return Column(
       mainAxisSize: MainAxisSize.max,
@@ -110,7 +120,7 @@ class _WeatherPageState extends State<WeatherPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '${weatherModel?.city?.name ?? ''}, ${weatherModel?.city?.country ?? ''}',
+              '${weatherModel?.city.name ?? ''}, ${weatherModel?.city.country ?? ''}',
               style: const TextStyle(
                 color: Colors.black,
                 fontSize: 30,
@@ -127,7 +137,7 @@ class _WeatherPageState extends State<WeatherPage> {
           ],
         ),
         Text(
-          'Last update, ${DateTimeUtil.convertDateFormat(weatherModel?.list?.first.dtTxt)}',
+          'Last update, ${DateTimeUtil.convertDateFormat(weatherModel?.list.first.dt_txt)}',
           style: const TextStyle(
             color: Colors.black,
             fontSize: 15,
