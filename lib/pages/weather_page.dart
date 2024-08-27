@@ -120,7 +120,7 @@ class _WeatherPageState extends State<WeatherPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '${weatherModel?.city.name ?? ''}, ${weatherModel?.city.country ?? ''}',
+              '${weatherModel?.city?.name ?? ''}, ${weatherModel?.city?.country ?? ''}',
               style: const TextStyle(
                 color: Colors.black,
                 fontSize: 30,

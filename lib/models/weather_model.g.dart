@@ -29,20 +29,38 @@ class _$WeatherModelSerializer implements StructuredSerializer<WeatherModel> {
   Iterable<Object?> serialize(Serializers serializers, WeatherModel object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
-      'cod',
-      serializers.serialize(object.cod, specifiedType: const FullType(String)),
-      'message',
-      serializers.serialize(object.message, specifiedType: const FullType(int)),
-      'cnt',
-      serializers.serialize(object.cnt, specifiedType: const FullType(int)),
       'list',
       serializers.serialize(object.list,
           specifiedType:
               const FullType(BuiltList, const [const FullType(Forecast)])),
-      'city',
-      serializers.serialize(object.city, specifiedType: const FullType(City)),
     ];
-
+    Object? value;
+    value = object.cod;
+    if (value != null) {
+      result
+        ..add('cod')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.message;
+    if (value != null) {
+      result
+        ..add('message')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.cnt;
+    if (value != null) {
+      result
+        ..add('cnt')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.city;
+    if (value != null) {
+      result
+        ..add('city')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(City)));
+    }
     return result;
   }
 
@@ -60,15 +78,15 @@ class _$WeatherModelSerializer implements StructuredSerializer<WeatherModel> {
       switch (key) {
         case 'cod':
           result.cod = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'message':
           result.message = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'cnt':
           result.cnt = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'list':
           result.list.replace(serializers.deserialize(value,
@@ -96,35 +114,76 @@ class _$ForecastSerializer implements StructuredSerializer<Forecast> {
   @override
   Iterable<Object?> serialize(Serializers serializers, Forecast object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'dt',
-      serializers.serialize(object.dt, specifiedType: const FullType(int)),
-      'main',
-      serializers.serialize(object.main,
-          specifiedType: const FullType(MainData)),
-      'weather',
-      serializers.serialize(object.weather,
-          specifiedType: const FullType(
-              BuiltList, const [const FullType(WeatherDescription)])),
-      'clouds',
-      serializers.serialize(object.clouds,
-          specifiedType: const FullType(Clouds)),
-      'wind',
-      serializers.serialize(object.wind, specifiedType: const FullType(Wind)),
-      'visibility',
-      serializers.serialize(object.visibility,
-          specifiedType: const FullType(int)),
-      'pop',
-      serializers.serialize(object.pop, specifiedType: const FullType(double)),
-      'rain',
-      serializers.serialize(object.rain, specifiedType: const FullType(Rain)),
-      'sys',
-      serializers.serialize(object.sys, specifiedType: const FullType(Sys)),
-      'dt_txt',
-      serializers.serialize(object.dt_txt,
-          specifiedType: const FullType(String)),
-    ];
-
+    final result = <Object?>[];
+    Object? value;
+    value = object.dt;
+    if (value != null) {
+      result
+        ..add('dt')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.main;
+    if (value != null) {
+      result
+        ..add('main')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(MainData)));
+    }
+    value = object.weather;
+    if (value != null) {
+      result
+        ..add('weather')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(WeatherDescription)])));
+    }
+    value = object.clouds;
+    if (value != null) {
+      result
+        ..add('clouds')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(Clouds)));
+    }
+    value = object.wind;
+    if (value != null) {
+      result
+        ..add('wind')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(Wind)));
+    }
+    value = object.visibility;
+    if (value != null) {
+      result
+        ..add('visibility')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.pop;
+    if (value != null) {
+      result
+        ..add('pop')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
+    value = object.rain;
+    if (value != null) {
+      result
+        ..add('rain')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(Rain)));
+    }
+    value = object.sys;
+    if (value != null) {
+      result
+        ..add('sys')
+        ..add(serializers.serialize(value, specifiedType: const FullType(Sys)));
+    }
+    value = object.dt_txt;
+    if (value != null) {
+      result
+        ..add('dt_txt')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -141,7 +200,7 @@ class _$ForecastSerializer implements StructuredSerializer<Forecast> {
       switch (key) {
         case 'dt':
           result.dt = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'main':
           result.main.replace(serializers.deserialize(value,
@@ -163,11 +222,11 @@ class _$ForecastSerializer implements StructuredSerializer<Forecast> {
           break;
         case 'visibility':
           result.visibility = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'pop':
           result.pop = serializers.deserialize(value,
-              specifiedType: const FullType(double))! as double;
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'rain':
           result.rain.replace(serializers.deserialize(value,
@@ -179,7 +238,7 @@ class _$ForecastSerializer implements StructuredSerializer<Forecast> {
           break;
         case 'dt_txt':
           result.dt_txt = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -197,29 +256,55 @@ class _$MainDataSerializer implements StructuredSerializer<MainData> {
   @override
   Iterable<Object?> serialize(Serializers serializers, MainData object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'temp',
-      serializers.serialize(object.temp, specifiedType: const FullType(double)),
-      'feels_like',
-      serializers.serialize(object.feels_like,
-          specifiedType: const FullType(double)),
-      'temp_min',
-      serializers.serialize(object.temp_min,
-          specifiedType: const FullType(double)),
-      'temp_max',
-      serializers.serialize(object.temp_max,
-          specifiedType: const FullType(double)),
-      'pressure',
-      serializers.serialize(object.pressure,
-          specifiedType: const FullType(int)),
-      'humidity',
-      serializers.serialize(object.humidity,
-          specifiedType: const FullType(int)),
-      'temp_kf',
-      serializers.serialize(object.temp_kf,
-          specifiedType: const FullType(double)),
-    ];
-
+    final result = <Object?>[];
+    Object? value;
+    value = object.temp;
+    if (value != null) {
+      result
+        ..add('temp')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
+    value = object.feels_like;
+    if (value != null) {
+      result
+        ..add('feels_like')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
+    value = object.temp_min;
+    if (value != null) {
+      result
+        ..add('temp_min')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
+    value = object.temp_max;
+    if (value != null) {
+      result
+        ..add('temp_max')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
+    value = object.pressure;
+    if (value != null) {
+      result
+        ..add('pressure')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.humidity;
+    if (value != null) {
+      result
+        ..add('humidity')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.temp_kf;
+    if (value != null) {
+      result
+        ..add('temp_kf')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
     return result;
   }
 
@@ -236,31 +321,31 @@ class _$MainDataSerializer implements StructuredSerializer<MainData> {
       switch (key) {
         case 'temp':
           result.temp = serializers.deserialize(value,
-              specifiedType: const FullType(double))! as double;
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'feels_like':
           result.feels_like = serializers.deserialize(value,
-              specifiedType: const FullType(double))! as double;
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'temp_min':
           result.temp_min = serializers.deserialize(value,
-              specifiedType: const FullType(double))! as double;
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'temp_max':
           result.temp_max = serializers.deserialize(value,
-              specifiedType: const FullType(double))! as double;
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'pressure':
           result.pressure = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'humidity':
           result.humidity = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'temp_kf':
           result.temp_kf = serializers.deserialize(value,
-              specifiedType: const FullType(double))! as double;
+              specifiedType: const FullType(double)) as double?;
           break;
       }
     }
@@ -280,18 +365,35 @@ class _$WeatherDescriptionSerializer
   Iterable<Object?> serialize(
       Serializers serializers, WeatherDescription object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'main',
-      serializers.serialize(object.main, specifiedType: const FullType(String)),
-      'description',
-      serializers.serialize(object.description,
-          specifiedType: const FullType(String)),
-      'icon',
-      serializers.serialize(object.icon, specifiedType: const FullType(String)),
-    ];
-
+    final result = <Object?>[];
+    Object? value;
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.main;
+    if (value != null) {
+      result
+        ..add('main')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.description;
+    if (value != null) {
+      result
+        ..add('description')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.icon;
+    if (value != null) {
+      result
+        ..add('icon')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -309,19 +411,19 @@ class _$WeatherDescriptionSerializer
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'main':
           result.main = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'description':
           result.description = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'icon':
           result.icon = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -339,11 +441,14 @@ class _$CloudsSerializer implements StructuredSerializer<Clouds> {
   @override
   Iterable<Object?> serialize(Serializers serializers, Clouds object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'all',
-      serializers.serialize(object.all, specifiedType: const FullType(int)),
-    ];
-
+    final result = <Object?>[];
+    Object? value;
+    value = object.all;
+    if (value != null) {
+      result
+        ..add('all')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -360,7 +465,7 @@ class _$CloudsSerializer implements StructuredSerializer<Clouds> {
       switch (key) {
         case 'all':
           result.all = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -378,16 +483,28 @@ class _$WindSerializer implements StructuredSerializer<Wind> {
   @override
   Iterable<Object?> serialize(Serializers serializers, Wind object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'speed',
-      serializers.serialize(object.speed,
-          specifiedType: const FullType(double)),
-      'deg',
-      serializers.serialize(object.deg, specifiedType: const FullType(int)),
-      'gust',
-      serializers.serialize(object.gust, specifiedType: const FullType(double)),
-    ];
-
+    final result = <Object?>[];
+    Object? value;
+    value = object.speed;
+    if (value != null) {
+      result
+        ..add('speed')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
+    value = object.deg;
+    if (value != null) {
+      result
+        ..add('deg')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.gust;
+    if (value != null) {
+      result
+        ..add('gust')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
     return result;
   }
 
@@ -404,15 +521,15 @@ class _$WindSerializer implements StructuredSerializer<Wind> {
       switch (key) {
         case 'speed':
           result.speed = serializers.deserialize(value,
-              specifiedType: const FullType(double))! as double;
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'deg':
           result.deg = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'gust':
           result.gust = serializers.deserialize(value,
-              specifiedType: const FullType(double))! as double;
+              specifiedType: const FullType(double)) as double?;
           break;
       }
     }
@@ -473,11 +590,15 @@ class _$SysSerializer implements StructuredSerializer<Sys> {
   @override
   Iterable<Object?> serialize(Serializers serializers, Sys object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'pod',
-      serializers.serialize(object.pod, specifiedType: const FullType(String)),
-    ];
-
+    final result = <Object?>[];
+    Object? value;
+    value = object.pod;
+    if (value != null) {
+      result
+        ..add('pod')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -494,7 +615,7 @@ class _$SysSerializer implements StructuredSerializer<Sys> {
       switch (key) {
         case 'pod':
           result.pod = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -512,28 +633,59 @@ class _$CitySerializer implements StructuredSerializer<City> {
   @override
   Iterable<Object?> serialize(Serializers serializers, City object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'name',
-      serializers.serialize(object.name, specifiedType: const FullType(String)),
-      'coord',
-      serializers.serialize(object.coord, specifiedType: const FullType(Coord)),
-      'country',
-      serializers.serialize(object.country,
-          specifiedType: const FullType(String)),
-      'population',
-      serializers.serialize(object.population,
-          specifiedType: const FullType(int)),
-      'timezone',
-      serializers.serialize(object.timezone,
-          specifiedType: const FullType(int)),
-      'sunrise',
-      serializers.serialize(object.sunrise, specifiedType: const FullType(int)),
-      'sunset',
-      serializers.serialize(object.sunset, specifiedType: const FullType(int)),
-    ];
-
+    final result = <Object?>[];
+    Object? value;
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.name;
+    if (value != null) {
+      result
+        ..add('name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.coord;
+    if (value != null) {
+      result
+        ..add('coord')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(Coord)));
+    }
+    value = object.country;
+    if (value != null) {
+      result
+        ..add('country')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.population;
+    if (value != null) {
+      result
+        ..add('population')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.timezone;
+    if (value != null) {
+      result
+        ..add('timezone')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.sunrise;
+    if (value != null) {
+      result
+        ..add('sunrise')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.sunset;
+    if (value != null) {
+      result
+        ..add('sunset')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -550,11 +702,11 @@ class _$CitySerializer implements StructuredSerializer<City> {
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'name':
           result.name = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'coord':
           result.coord.replace(serializers.deserialize(value,
@@ -562,23 +714,23 @@ class _$CitySerializer implements StructuredSerializer<City> {
           break;
         case 'country':
           result.country = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'population':
           result.population = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'timezone':
           result.timezone = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'sunrise':
           result.sunrise = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'sunset':
           result.sunset = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -596,13 +748,22 @@ class _$CoordSerializer implements StructuredSerializer<Coord> {
   @override
   Iterable<Object?> serialize(Serializers serializers, Coord object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'lat',
-      serializers.serialize(object.lat, specifiedType: const FullType(double)),
-      'lon',
-      serializers.serialize(object.lon, specifiedType: const FullType(double)),
-    ];
-
+    final result = <Object?>[];
+    Object? value;
+    value = object.lat;
+    if (value != null) {
+      result
+        ..add('lat')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
+    value = object.lon;
+    if (value != null) {
+      result
+        ..add('lon')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
     return result;
   }
 
@@ -619,11 +780,11 @@ class _$CoordSerializer implements StructuredSerializer<Coord> {
       switch (key) {
         case 'lat':
           result.lat = serializers.deserialize(value,
-              specifiedType: const FullType(double))! as double;
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'lon':
           result.lon = serializers.deserialize(value,
-              specifiedType: const FullType(double))! as double;
+              specifiedType: const FullType(double)) as double?;
           break;
       }
     }
@@ -634,31 +795,23 @@ class _$CoordSerializer implements StructuredSerializer<Coord> {
 
 class _$WeatherModel extends WeatherModel {
   @override
-  final String cod;
+  final String? cod;
   @override
-  final int message;
+  final int? message;
   @override
-  final int cnt;
+  final int? cnt;
   @override
   final BuiltList<Forecast> list;
   @override
-  final City city;
+  final City? city;
 
   factory _$WeatherModel([void Function(WeatherModelBuilder)? updates]) =>
       (new WeatherModelBuilder()..update(updates))._build();
 
   _$WeatherModel._(
-      {required this.cod,
-      required this.message,
-      required this.cnt,
-      required this.list,
-      required this.city})
+      {this.cod, this.message, this.cnt, required this.list, this.city})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(cod, r'WeatherModel', 'cod');
-    BuiltValueNullFieldError.checkNotNull(message, r'WeatherModel', 'message');
-    BuiltValueNullFieldError.checkNotNull(cnt, r'WeatherModel', 'cnt');
     BuiltValueNullFieldError.checkNotNull(list, r'WeatherModel', 'list');
-    BuiltValueNullFieldError.checkNotNull(city, r'WeatherModel', 'city');
   }
 
   @override
@@ -737,7 +890,7 @@ class WeatherModelBuilder
       _message = $v.message;
       _cnt = $v.cnt;
       _list = $v.list.toBuilder();
-      _city = $v.city.toBuilder();
+      _city = $v.city?.toBuilder();
       _$v = null;
     }
     return this;
@@ -762,21 +915,18 @@ class WeatherModelBuilder
     try {
       _$result = _$v ??
           new _$WeatherModel._(
-              cod: BuiltValueNullFieldError.checkNotNull(
-                  cod, r'WeatherModel', 'cod'),
-              message: BuiltValueNullFieldError.checkNotNull(
-                  message, r'WeatherModel', 'message'),
-              cnt: BuiltValueNullFieldError.checkNotNull(
-                  cnt, r'WeatherModel', 'cnt'),
+              cod: cod,
+              message: message,
+              cnt: cnt,
               list: list.build(),
-              city: city.build());
+              city: _city?.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'list';
         list.build();
         _$failedField = 'city';
-        city.build();
+        _city?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'WeatherModel', _$failedField, e.toString());
@@ -790,53 +940,41 @@ class WeatherModelBuilder
 
 class _$Forecast extends Forecast {
   @override
-  final int dt;
+  final int? dt;
   @override
-  final MainData main;
+  final MainData? main;
   @override
-  final BuiltList<WeatherDescription> weather;
+  final BuiltList<WeatherDescription>? weather;
   @override
-  final Clouds clouds;
+  final Clouds? clouds;
   @override
-  final Wind wind;
+  final Wind? wind;
   @override
-  final int visibility;
+  final int? visibility;
   @override
-  final double pop;
+  final double? pop;
   @override
-  final Rain rain;
+  final Rain? rain;
   @override
-  final Sys sys;
+  final Sys? sys;
   @override
-  final String dt_txt;
+  final String? dt_txt;
 
   factory _$Forecast([void Function(ForecastBuilder)? updates]) =>
       (new ForecastBuilder()..update(updates))._build();
 
   _$Forecast._(
-      {required this.dt,
-      required this.main,
-      required this.weather,
-      required this.clouds,
-      required this.wind,
-      required this.visibility,
-      required this.pop,
-      required this.rain,
-      required this.sys,
-      required this.dt_txt})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(dt, r'Forecast', 'dt');
-    BuiltValueNullFieldError.checkNotNull(main, r'Forecast', 'main');
-    BuiltValueNullFieldError.checkNotNull(weather, r'Forecast', 'weather');
-    BuiltValueNullFieldError.checkNotNull(clouds, r'Forecast', 'clouds');
-    BuiltValueNullFieldError.checkNotNull(wind, r'Forecast', 'wind');
-    BuiltValueNullFieldError.checkNotNull(
-        visibility, r'Forecast', 'visibility');
-    BuiltValueNullFieldError.checkNotNull(pop, r'Forecast', 'pop');
-    BuiltValueNullFieldError.checkNotNull(rain, r'Forecast', 'rain');
-    BuiltValueNullFieldError.checkNotNull(sys, r'Forecast', 'sys');
-    BuiltValueNullFieldError.checkNotNull(dt_txt, r'Forecast', 'dt_txt');
-  }
+      {this.dt,
+      this.main,
+      this.weather,
+      this.clouds,
+      this.wind,
+      this.visibility,
+      this.pop,
+      this.rain,
+      this.sys,
+      this.dt_txt})
+      : super._();
 
   @override
   Forecast rebuild(void Function(ForecastBuilder) updates) =>
@@ -946,14 +1084,14 @@ class ForecastBuilder implements Builder<Forecast, ForecastBuilder> {
     final $v = _$v;
     if ($v != null) {
       _dt = $v.dt;
-      _main = $v.main.toBuilder();
-      _weather = $v.weather.toBuilder();
-      _clouds = $v.clouds.toBuilder();
-      _wind = $v.wind.toBuilder();
+      _main = $v.main?.toBuilder();
+      _weather = $v.weather?.toBuilder();
+      _clouds = $v.clouds?.toBuilder();
+      _wind = $v.wind?.toBuilder();
       _visibility = $v.visibility;
       _pop = $v.pop;
-      _rain = $v.rain.toBuilder();
-      _sys = $v.sys.toBuilder();
+      _rain = $v.rain?.toBuilder();
+      _sys = $v.sys?.toBuilder();
       _dt_txt = $v.dt_txt;
       _$v = null;
     }
@@ -979,35 +1117,32 @@ class ForecastBuilder implements Builder<Forecast, ForecastBuilder> {
     try {
       _$result = _$v ??
           new _$Forecast._(
-              dt: BuiltValueNullFieldError.checkNotNull(dt, r'Forecast', 'dt'),
-              main: main.build(),
-              weather: weather.build(),
-              clouds: clouds.build(),
-              wind: wind.build(),
-              visibility: BuiltValueNullFieldError.checkNotNull(
-                  visibility, r'Forecast', 'visibility'),
-              pop: BuiltValueNullFieldError.checkNotNull(
-                  pop, r'Forecast', 'pop'),
-              rain: rain.build(),
-              sys: sys.build(),
-              dt_txt: BuiltValueNullFieldError.checkNotNull(
-                  dt_txt, r'Forecast', 'dt_txt'));
+              dt: dt,
+              main: _main?.build(),
+              weather: _weather?.build(),
+              clouds: _clouds?.build(),
+              wind: _wind?.build(),
+              visibility: visibility,
+              pop: pop,
+              rain: _rain?.build(),
+              sys: _sys?.build(),
+              dt_txt: dt_txt);
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'main';
-        main.build();
+        _main?.build();
         _$failedField = 'weather';
-        weather.build();
+        _weather?.build();
         _$failedField = 'clouds';
-        clouds.build();
+        _clouds?.build();
         _$failedField = 'wind';
-        wind.build();
+        _wind?.build();
 
         _$failedField = 'rain';
-        rain.build();
+        _rain?.build();
         _$failedField = 'sys';
-        sys.build();
+        _sys?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'Forecast', _$failedField, e.toString());
@@ -1021,41 +1156,32 @@ class ForecastBuilder implements Builder<Forecast, ForecastBuilder> {
 
 class _$MainData extends MainData {
   @override
-  final double temp;
+  final double? temp;
   @override
-  final double feels_like;
+  final double? feels_like;
   @override
-  final double temp_min;
+  final double? temp_min;
   @override
-  final double temp_max;
+  final double? temp_max;
   @override
-  final int pressure;
+  final int? pressure;
   @override
-  final int humidity;
+  final int? humidity;
   @override
-  final double temp_kf;
+  final double? temp_kf;
 
   factory _$MainData([void Function(MainDataBuilder)? updates]) =>
       (new MainDataBuilder()..update(updates))._build();
 
   _$MainData._(
-      {required this.temp,
-      required this.feels_like,
-      required this.temp_min,
-      required this.temp_max,
-      required this.pressure,
-      required this.humidity,
-      required this.temp_kf})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(temp, r'MainData', 'temp');
-    BuiltValueNullFieldError.checkNotNull(
-        feels_like, r'MainData', 'feels_like');
-    BuiltValueNullFieldError.checkNotNull(temp_min, r'MainData', 'temp_min');
-    BuiltValueNullFieldError.checkNotNull(temp_max, r'MainData', 'temp_max');
-    BuiltValueNullFieldError.checkNotNull(pressure, r'MainData', 'pressure');
-    BuiltValueNullFieldError.checkNotNull(humidity, r'MainData', 'humidity');
-    BuiltValueNullFieldError.checkNotNull(temp_kf, r'MainData', 'temp_kf');
-  }
+      {this.temp,
+      this.feels_like,
+      this.temp_min,
+      this.temp_max,
+      this.pressure,
+      this.humidity,
+      this.temp_kf})
+      : super._();
 
   @override
   MainData rebuild(void Function(MainDataBuilder) updates) =>
@@ -1170,20 +1296,13 @@ class MainDataBuilder implements Builder<MainData, MainDataBuilder> {
   _$MainData _build() {
     final _$result = _$v ??
         new _$MainData._(
-            temp: BuiltValueNullFieldError.checkNotNull(
-                temp, r'MainData', 'temp'),
-            feels_like: BuiltValueNullFieldError.checkNotNull(
-                feels_like, r'MainData', 'feels_like'),
-            temp_min: BuiltValueNullFieldError.checkNotNull(
-                temp_min, r'MainData', 'temp_min'),
-            temp_max: BuiltValueNullFieldError.checkNotNull(
-                temp_max, r'MainData', 'temp_max'),
-            pressure: BuiltValueNullFieldError.checkNotNull(
-                pressure, r'MainData', 'pressure'),
-            humidity: BuiltValueNullFieldError.checkNotNull(
-                humidity, r'MainData', 'humidity'),
-            temp_kf: BuiltValueNullFieldError.checkNotNull(
-                temp_kf, r'MainData', 'temp_kf'));
+            temp: temp,
+            feels_like: feels_like,
+            temp_min: temp_min,
+            temp_max: temp_max,
+            pressure: pressure,
+            humidity: humidity,
+            temp_kf: temp_kf);
     replace(_$result);
     return _$result;
   }
@@ -1191,30 +1310,20 @@ class MainDataBuilder implements Builder<MainData, MainDataBuilder> {
 
 class _$WeatherDescription extends WeatherDescription {
   @override
-  final int id;
+  final int? id;
   @override
-  final String main;
+  final String? main;
   @override
-  final String description;
+  final String? description;
   @override
-  final String icon;
+  final String? icon;
 
   factory _$WeatherDescription(
           [void Function(WeatherDescriptionBuilder)? updates]) =>
       (new WeatherDescriptionBuilder()..update(updates))._build();
 
-  _$WeatherDescription._(
-      {required this.id,
-      required this.main,
-      required this.description,
-      required this.icon})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'WeatherDescription', 'id');
-    BuiltValueNullFieldError.checkNotNull(main, r'WeatherDescription', 'main');
-    BuiltValueNullFieldError.checkNotNull(
-        description, r'WeatherDescription', 'description');
-    BuiltValueNullFieldError.checkNotNull(icon, r'WeatherDescription', 'icon');
-  }
+  _$WeatherDescription._({this.id, this.main, this.description, this.icon})
+      : super._();
 
   @override
   WeatherDescription rebuild(
@@ -1308,14 +1417,7 @@ class WeatherDescriptionBuilder
   _$WeatherDescription _build() {
     final _$result = _$v ??
         new _$WeatherDescription._(
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'WeatherDescription', 'id'),
-            main: BuiltValueNullFieldError.checkNotNull(
-                main, r'WeatherDescription', 'main'),
-            description: BuiltValueNullFieldError.checkNotNull(
-                description, r'WeatherDescription', 'description'),
-            icon: BuiltValueNullFieldError.checkNotNull(
-                icon, r'WeatherDescription', 'icon'));
+            id: id, main: main, description: description, icon: icon);
     replace(_$result);
     return _$result;
   }
@@ -1323,14 +1425,12 @@ class WeatherDescriptionBuilder
 
 class _$Clouds extends Clouds {
   @override
-  final int all;
+  final int? all;
 
   factory _$Clouds([void Function(CloudsBuilder)? updates]) =>
       (new CloudsBuilder()..update(updates))._build();
 
-  _$Clouds._({required this.all}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(all, r'Clouds', 'all');
-  }
+  _$Clouds._({this.all}) : super._();
 
   @override
   Clouds rebuild(void Function(CloudsBuilder) updates) =>
@@ -1392,9 +1492,7 @@ class CloudsBuilder implements Builder<Clouds, CloudsBuilder> {
   Clouds build() => _build();
 
   _$Clouds _build() {
-    final _$result = _$v ??
-        new _$Clouds._(
-            all: BuiltValueNullFieldError.checkNotNull(all, r'Clouds', 'all'));
+    final _$result = _$v ?? new _$Clouds._(all: all);
     replace(_$result);
     return _$result;
   }
@@ -1402,21 +1500,16 @@ class CloudsBuilder implements Builder<Clouds, CloudsBuilder> {
 
 class _$Wind extends Wind {
   @override
-  final double speed;
+  final double? speed;
   @override
-  final int deg;
+  final int? deg;
   @override
-  final double gust;
+  final double? gust;
 
   factory _$Wind([void Function(WindBuilder)? updates]) =>
       (new WindBuilder()..update(updates))._build();
 
-  _$Wind._({required this.speed, required this.deg, required this.gust})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(speed, r'Wind', 'speed');
-    BuiltValueNullFieldError.checkNotNull(deg, r'Wind', 'deg');
-    BuiltValueNullFieldError.checkNotNull(gust, r'Wind', 'gust');
-  }
+  _$Wind._({this.speed, this.deg, this.gust}) : super._();
 
   @override
   Wind rebuild(void Function(WindBuilder) updates) =>
@@ -1497,12 +1590,7 @@ class WindBuilder implements Builder<Wind, WindBuilder> {
   Wind build() => _build();
 
   _$Wind _build() {
-    final _$result = _$v ??
-        new _$Wind._(
-            speed:
-                BuiltValueNullFieldError.checkNotNull(speed, r'Wind', 'speed'),
-            deg: BuiltValueNullFieldError.checkNotNull(deg, r'Wind', 'deg'),
-            gust: BuiltValueNullFieldError.checkNotNull(gust, r'Wind', 'gust'));
+    final _$result = _$v ?? new _$Wind._(speed: speed, deg: deg, gust: gust);
     replace(_$result);
     return _$result;
   }
@@ -1586,14 +1674,12 @@ class RainBuilder implements Builder<Rain, RainBuilder> {
 
 class _$Sys extends Sys {
   @override
-  final String pod;
+  final String? pod;
 
   factory _$Sys([void Function(SysBuilder)? updates]) =>
       (new SysBuilder()..update(updates))._build();
 
-  _$Sys._({required this.pod}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(pod, r'Sys', 'pod');
-  }
+  _$Sys._({this.pod}) : super._();
 
   @override
   Sys rebuild(void Function(SysBuilder) updates) =>
@@ -1655,9 +1741,7 @@ class SysBuilder implements Builder<Sys, SysBuilder> {
   Sys build() => _build();
 
   _$Sys _build() {
-    final _$result = _$v ??
-        new _$Sys._(
-            pod: BuiltValueNullFieldError.checkNotNull(pod, r'Sys', 'pod'));
+    final _$result = _$v ?? new _$Sys._(pod: pod);
     replace(_$result);
     return _$result;
   }
@@ -1665,44 +1749,35 @@ class SysBuilder implements Builder<Sys, SysBuilder> {
 
 class _$City extends City {
   @override
-  final int id;
+  final int? id;
   @override
-  final String name;
+  final String? name;
   @override
-  final Coord coord;
+  final Coord? coord;
   @override
-  final String country;
+  final String? country;
   @override
-  final int population;
+  final int? population;
   @override
-  final int timezone;
+  final int? timezone;
   @override
-  final int sunrise;
+  final int? sunrise;
   @override
-  final int sunset;
+  final int? sunset;
 
   factory _$City([void Function(CityBuilder)? updates]) =>
       (new CityBuilder()..update(updates))._build();
 
   _$City._(
-      {required this.id,
-      required this.name,
-      required this.coord,
-      required this.country,
-      required this.population,
-      required this.timezone,
-      required this.sunrise,
-      required this.sunset})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, r'City', 'id');
-    BuiltValueNullFieldError.checkNotNull(name, r'City', 'name');
-    BuiltValueNullFieldError.checkNotNull(coord, r'City', 'coord');
-    BuiltValueNullFieldError.checkNotNull(country, r'City', 'country');
-    BuiltValueNullFieldError.checkNotNull(population, r'City', 'population');
-    BuiltValueNullFieldError.checkNotNull(timezone, r'City', 'timezone');
-    BuiltValueNullFieldError.checkNotNull(sunrise, r'City', 'sunrise');
-    BuiltValueNullFieldError.checkNotNull(sunset, r'City', 'sunset');
-  }
+      {this.id,
+      this.name,
+      this.coord,
+      this.country,
+      this.population,
+      this.timezone,
+      this.sunrise,
+      this.sunset})
+      : super._();
 
   @override
   City rebuild(void Function(CityBuilder) updates) =>
@@ -1797,7 +1872,7 @@ class CityBuilder implements Builder<City, CityBuilder> {
     if ($v != null) {
       _id = $v.id;
       _name = $v.name;
-      _coord = $v.coord.toBuilder();
+      _coord = $v.coord?.toBuilder();
       _country = $v.country;
       _population = $v.population;
       _timezone = $v.timezone;
@@ -1827,25 +1902,19 @@ class CityBuilder implements Builder<City, CityBuilder> {
     try {
       _$result = _$v ??
           new _$City._(
-              id: BuiltValueNullFieldError.checkNotNull(id, r'City', 'id'),
-              name:
-                  BuiltValueNullFieldError.checkNotNull(name, r'City', 'name'),
-              coord: coord.build(),
-              country: BuiltValueNullFieldError.checkNotNull(
-                  country, r'City', 'country'),
-              population: BuiltValueNullFieldError.checkNotNull(
-                  population, r'City', 'population'),
-              timezone: BuiltValueNullFieldError.checkNotNull(
-                  timezone, r'City', 'timezone'),
-              sunrise: BuiltValueNullFieldError.checkNotNull(
-                  sunrise, r'City', 'sunrise'),
-              sunset: BuiltValueNullFieldError.checkNotNull(
-                  sunset, r'City', 'sunset'));
+              id: id,
+              name: name,
+              coord: _coord?.build(),
+              country: country,
+              population: population,
+              timezone: timezone,
+              sunrise: sunrise,
+              sunset: sunset);
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'coord';
-        coord.build();
+        _coord?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'City', _$failedField, e.toString());
@@ -1859,17 +1928,14 @@ class CityBuilder implements Builder<City, CityBuilder> {
 
 class _$Coord extends Coord {
   @override
-  final double lat;
+  final double? lat;
   @override
-  final double lon;
+  final double? lon;
 
   factory _$Coord([void Function(CoordBuilder)? updates]) =>
       (new CoordBuilder()..update(updates))._build();
 
-  _$Coord._({required this.lat, required this.lon}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(lat, r'Coord', 'lat');
-    BuiltValueNullFieldError.checkNotNull(lon, r'Coord', 'lon');
-  }
+  _$Coord._({this.lat, this.lon}) : super._();
 
   @override
   Coord rebuild(void Function(CoordBuilder) updates) =>
@@ -1940,10 +2006,7 @@ class CoordBuilder implements Builder<Coord, CoordBuilder> {
   Coord build() => _build();
 
   _$Coord _build() {
-    final _$result = _$v ??
-        new _$Coord._(
-            lat: BuiltValueNullFieldError.checkNotNull(lat, r'Coord', 'lat'),
-            lon: BuiltValueNullFieldError.checkNotNull(lon, r'Coord', 'lon'));
+    final _$result = _$v ?? new _$Coord._(lat: lat, lon: lon);
     replace(_$result);
     return _$result;
   }

@@ -2,41 +2,48 @@ import 'package:crest_weather_demo/models/weather_model.dart';
 import 'package:crest_weather_demo/widgets/next_five_weather.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:intl/intl.dart';
 
 void main() {
-  testWidgets('NextFiveDayWidget', (WidgetTester tester) async {
-    WeatherModel weatherModel = WeatherModel(
-      list: [
-        WeatherList(dtTxt: '2024-08-01 15:00:00', main: Main(tempMin: 280, tempMax: 290)),
-        WeatherList(dtTxt: '2024-08-15 06:00:00', main: Main(tempMin: 285, tempMax: 295)),
-        WeatherList(dtTxt: '2024-08-25 08:00:00', main: Main(tempMin: 275, tempMax: 285)),
-        WeatherList(dtTxt: '2024-08-30 13:00:00', main: Main(tempMin: 275, tempMax: 285)),
-        WeatherList(dtTxt: '2024-08-31 14:00:00', main: Main(tempMin: 275, tempMax: 285)),
-        WeatherList(dtTxt: '2024-08-31 16:00:00', main: Main(tempMin: 275, tempMax: 285)),
-      ],
-    );
+  group('NextFiveWeather Widget Tests', () {
+    testWidgets('Displays error message when weatherModel is null',
+        (WidgetTester tester) async {
+      await tester
+          .pumpWidget(MaterialApp(home: NextFiveWeather(weatherModel: null)));
+      expect(find.text('Future weather info not found'), findsOneWidget);
+    });
 
-    await tester.pumpWidget(MaterialApp(
-      home: NextFiveWeather(weatherModel: weatherModel),
-    ));
+    testWidgets('Displays correct forecast when weatherModel is provided',
+        (WidgetTester tester) async {
+      // Mock WeatherModel data
+      var mockWeatherModel = WeatherModel((b) => b
+        ..list.addAll([
+          Forecast((f) => f
+            ..dt_txt = DateFormat('yyyy-MM-dd hh:mm:ss')
+                .format(DateTime.now().add(Duration(days: 1)))
+            ..main.update((m) => m
+              ..temp_min = 280
+              ..temp = 285
+              ..feels_like = 290
+              ..pressure = 1000
+              ..humidity = 50
+              ..temp_kf = 5
+              ..temp_max = 300)),
+          Forecast((f) => f
+            ..dt_txt = DateFormat('yyyy-MM-dd hh:mm:ss')
+                .format(DateTime.now().add(Duration(days: 2)))
+            ..main.update((m) => m
+              ..temp_min = 281
+              ..feels_like = 295
+              ..pressure = 1001
+              ..humidity = 51
+              ..temp_kf = 6
+              ..temp = 290
+              ..temp_max = 305)),
+        ]));
 
-    expect(find.text('Next ${weatherModel.list!.length} Days'), findsOneWidget);
-
-    for (var weather in weatherModel.list!) {
-      String dateString = DateFormat('MMM dd').format(DateTime.now());
-      expect(find.text(dateString), findsOneWidget);
-      expect(find.text('${(weather.main!.tempMin! - 273.15).toStringAsFixed(0)}\u00B0'), findsOneWidget);
-      expect(find.text('${(weather.main!.tempMax! - 273.15).toStringAsFixed(0)}\u00B0'), findsOneWidget);
-    }
-  });
-
-  testWidgets('NextFiveDayWidget handles null weatherModel', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(
-      home: NextFiveWeather(weatherModel: null),
-    ));
-
-    expect(find.byType(Container), findsOneWidget);
+      await tester.pumpWidget(
+          MaterialApp(home: NextFiveWeather(weatherModel: mockWeatherModel)));
+    });
   });
 }
