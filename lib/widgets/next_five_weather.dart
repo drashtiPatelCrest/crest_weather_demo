@@ -1,7 +1,6 @@
 import 'package:crest_weather_demo/constants/enum_constants.dart';
 import 'package:crest_weather_demo/models/weather_model.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../utils/date_time_util.dart';
 import 'medium_text.dart';
@@ -17,7 +16,6 @@ class NextFiveWeather extends StatelessWidget {
       return const Center(child: Text('Future weather info not found'));
     }
     List<WeatherList> nextFive = weatherModel?.list?.getNextFiveDays() ?? [];
-    ;
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
