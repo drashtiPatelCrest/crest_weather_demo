@@ -3,15 +3,22 @@ import 'package:crest_weather_demo/utils/api_key_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../serializer/serializers.dart';
+
 class ApiProvider {
   final Dio _dio = Dio();
   final String _url = 'https://api.openweathermap.org/data/2.5/forecast?';
 
-  Future<WeatherModel> fetchCovidWeatherInfo({required Position position}) async {
+  Future<WeatherModel> fetchCovidWeatherInfo(
+      {required Position position}) async {
     try {
       _dio.interceptors.add(DioInterceptor());
-      Response response = await _dio.get('$_url&lat=${position.latitude}&lon=${position.longitude}');
-      return WeatherModel.fromJson(response.data);
+      print('$_url&lat=${position.latitude}&lon=${position.longitude}');
+      Response response = await _dio
+          .get('$_url&lat=${position.latitude}&lon=${position.longitude}');
+      WeatherModel? weather =
+          serializers.deserializeWith(WeatherModel.serializer, response.data);
+      return weather!;
     } catch (error, stacktrace) {
       print("Exception occurred: $error stackTrace: $stacktrace");
       throw Exception('Failed to load data');

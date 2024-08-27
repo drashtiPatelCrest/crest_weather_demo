@@ -20,17 +20,19 @@ extension TemperatureConversion on num {
   }
 }
 
-extension WeatherListExtension on List<WeatherList>? {
-  List<WeatherList> getNextFiveDays() {
+extension WeatherListExtension on List<Forecast>? {
+  List<Forecast> getNextFiveDays() {
     if (this == null) return [];
 
     String todayString = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    var otherDates = this!.where((element) => element.dtTxt != null && !element.dtTxt!.contains(todayString));
-    List<WeatherList> nextFive = [];
+    var otherDates = this!.where((element) =>
+        element.dt_txt != null && !element.dt_txt!.contains(todayString));
+    List<Forecast> nextFive = [];
     for (var weather in otherDates) {
-      String dateString = weather.dtTxt!.split(' ')[0];
-      if (!nextFive.any((element) => element.dtTxt!.contains(dateString))) {
-        nextFive.add(otherDates.lastWhere((element) => element.dtTxt!.contains(dateString)));
+      String dateString = weather.dt_txt!.split(' ')[0];
+      if (!nextFive.any((element) => element.dt_txt!.contains(dateString))) {
+        nextFive.add(otherDates
+            .lastWhere((element) => element.dt_txt!.contains(dateString)));
       }
     }
     return nextFive;
