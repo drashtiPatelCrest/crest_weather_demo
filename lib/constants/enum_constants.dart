@@ -9,6 +9,12 @@ enum ConnectionType {
 
 extension TemperatureConversion on num {
   String toCelsiusString() {
+    if (this < 0) {
+      return 'Invalid';
+    }
+    if (this == 0) {
+      return '-273\u00B0';
+    }
     final celsius = this - 273.15;
     return '${celsius.toStringAsPrecision(2)}\u00B0';
   }
